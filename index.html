@@ -11,37 +11,11 @@
 			body {
 				opacity: 0;
 				visibility: hidden;
+				transition: opacity 0.3s ease;
 			}
-			
-			/* Fade in the entire body */
 			body.loaded {
 				opacity: 1;
 				visibility: visible;
-				transition: opacity 0.8s ease-in-out;
-			}
-			
-			/* Staggered fade for tiles - will be added via JS */
-			.tiles article {
-				opacity: 0;
-				transform: translateY(20px);
-				transition: opacity 0.6s ease, transform 0.6s ease;
-			}
-			
-			.tiles article.fade-in {
-				opacity: 1;
-				transform: translateY(0);
-			}
-			
-			/* Optional: Fade in header first */
-			header {
-				opacity: 0;
-				transform: translateY(-10px);
-				transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
-			}
-			
-			body.loaded header {
-				opacity: 1;
-				transform: translateY(0);
 			}
 		</style>
 	</head>
@@ -415,25 +389,17 @@
 			</div>
 
 		<!-- Scripts -->
-				<script>
+			<script>
+			// Show content when page fully loads
 			window.addEventListener('load', function() {
-				// Show content with fade
-				document.getElementById('wrapper').classList.add('visible');
-				
-				// Hide loading spinner after a short delay
-				setTimeout(function() {
-					document.getElementById('loading').classList.add('hidden');
-				}, 500);
+				document.body.classList.add('loaded');
 			});
 			
-			// Fallback
+			// Fallback - show content if load takes too long
 			setTimeout(function() {
-				if (!document.getElementById('wrapper').classList.contains('visible')) {
-					document.getElementById('wrapper').classList.add('visible');
-					document.getElementById('loading').classList.add('hidden');
-				}
-			}, 3000);
-		</script>
+				document.body.classList.add('loaded');
+			}, 10000);
+			</script>
 		
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
