@@ -394,17 +394,53 @@
 			</div>
 
 		<!-- Scripts -->
-			<script>
+			
+		<script>
+			// Track if we're performing a reload
+			let isReloading = false;
+			
 			// Show content when page fully loads
 			window.addEventListener('load', function() {
-				document.body.classList.add('loaded');
+				// Short delay for smoother appearance
+				setTimeout(function() {
+					document.body.classList.add('loaded');
+					
+					// Reset reloading flag after page is shown
+					if (isReloading) {
+						isReloading = false;
+					}
+				}, 100);
 			});
 			
 			// Fallback - show content if load takes too long
 			setTimeout(function() {
-				document.body.classList.add('loaded');
+				if (!document.body.classList.contains('loaded')) {
+					document.body.classList.add('loaded');
+				}
 			}, 10000);
-			</script>
+			
+			// Fade out effect before page reloads/navigates away
+			window.addEventListener('beforeunload', function() {
+				isReloading = true;
+				document.body.classList.add('fade-out');
+			});
+			
+			// Handle browser back/forward navigation (for single page feel)
+			window.addEventListener('pageshow', function(event) {
+				// If page is loaded from cache (browsing history)
+				if (event.persisted) {
+					document.body.classList.remove('loaded');
+					setTimeout(function() {
+						document.body.classList.add('loaded');
+					}, 50);
+				}
+			});
+			
+			// Handle browser back/forward navigation start
+			window.addEventListener('pagehide', function() {
+				document.body.classList.add('fade-out');
+			});
+		</script>
 		
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
