@@ -415,17 +415,25 @@
 			</div>
 
 		<!-- Scripts -->
-			<script>
-			// Show content when page fully loads
+				<script>
 			window.addEventListener('load', function() {
-				document.body.classList.add('loaded');
+				// Show content with fade
+				document.getElementById('wrapper').classList.add('visible');
+				
+				// Hide loading spinner after a short delay
+				setTimeout(function() {
+					document.getElementById('loading').classList.add('hidden');
+				}, 500);
 			});
 			
-			// Fallback - show content if load takes too long
+			// Fallback
 			setTimeout(function() {
-				document.body.classList.add('loaded');
-			}, 10000);
-			</script>
+				if (!document.getElementById('wrapper').classList.contains('visible')) {
+					document.getElementById('wrapper').classList.add('visible');
+					document.getElementById('loading').classList.add('hidden');
+				}
+			}, 3000);
+		</script>
 		
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
